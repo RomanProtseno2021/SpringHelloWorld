@@ -22,6 +22,6 @@ public class UsersService {
         User user1 = new User(2L, "Rat", "Bob", 45);
         User user2 = new User(3L, "Sen", "Bob", 45);
         List<User> users = Arrays.asList(user0, user1, user2);
-        return users;
+        return usersMapper.getAllUsers();
     }
 }
