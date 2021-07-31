@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 public class User {
 
-    private Long id;
+    private Integer id;
     private String firstName;
     private String lastName;
     private Integer age;

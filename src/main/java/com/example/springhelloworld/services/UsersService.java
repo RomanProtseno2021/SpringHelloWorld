@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UsersService {
@@ -17,11 +18,15 @@ public class UsersService {
     @Autowired
     private UsersMapper usersMapper;
 
-    public List<User> getAllUsers(){
-        User user0 = new User(1L, "fdhgfj", "Bob", 45);
-        User user1 = new User(2L, "Rat", "Bob", 45);
-        User user2 = new User(3L, "Sen", "Bob", 45);
-        List<User> users = Arrays.asList(user0, user1, user2);
+    public List<User> getAllUsers() {
         return usersMapper.getAllUsers();
+    }
+
+    public User getUserById(Integer id) {
+        User user = usersMapper.getUserById(Objects.requireNonNull(id, "id must be not null"));
+        if (user != null) {
+            return user;
+        }
+        throw new IllegalArgumentException("Користувача з id - " + id + " в базі даних не знайдено!");
     }
 }
