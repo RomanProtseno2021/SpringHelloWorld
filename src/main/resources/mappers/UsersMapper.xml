@@ -8,11 +8,44 @@
         <result column="last_name" property="lastName"/>
         <result column="age" property="age"/>
     </resultMap>
+
     <select id="getAllUsers" resultMap="userMap">
-        select id, first_name, last_name, age from users;
+        select id, first_name, last_name, age
+        from users;
     </select>
+
     <select id="getUserById" resultMap="userMap">
-        select id, first_name, last_name, age from users where id = #{id, jdbcType = INTEGER};
+        select id, first_name, last_name, age
+        from users
+        where id = #{id, jdbcType = INTEGER};
         --insert
     </select>
+
+    <select id="addUser" parameterType="com.example.springhelloworld.stucts.User" resultMap="userMap">
+        insert into users(first_name, last_name, age)
+        values (#{user.firstName, jdbcType = VARCHAR},
+                #{user.lastName, jdbcType = VARCHAR}, #{user.age, jdbcType = INTEGER})
+        returning id, first_name, last_name, age;
+    </select>
+
+    <select id="ifUserExists" resultType="java.lang.Boolean">
+        select exists(select 1
+                      from users
+                      where id = #{idUser, jdbcType = INTEGER}
+                   );
+    </select>
+
+    <select id="updateUser" parameterType="com.example.springhelloworld.stucts.User" resultMap="userMap">
+        update users
+        set first_name = #{user.firstName, jdbcType = VARCHAR},
+            last_name  = #{user.lastName, jdbcType = VARCHAR},
+            age        = #{user.age, jdbcType = INTEGER}
+        where id = #{idUser, jdbcType = INTEGER}
+        returning id, first_name, last_name, age;
+    </select>
+
+    <select id="deleteUserById" resultType="java.lang.Boolean">
+        delete from users where id = #{id, jdbcType = INTEGER};
+    </select>
+
 </mapper>
